@@ -158,6 +158,8 @@ public class MyPanel extends JPanel {
 		}
 		return false;
 	}
+	
+	//By Lemanuel Colon
 	public void genField(){
 		for(int y = 0; y<this.getROWS() - 1; y++){
 			for(int x = 0; x<this.getColumns(); x++){
@@ -221,7 +223,6 @@ public class MyPanel extends JPanel {
 				if((x-i) >= 0 && (y-j) >=0){
 					if(minas[x-i][y - j] == 0 && mineField[x-i][y-j] != Color.RED){
 						mineField[x-i][y-j] = Color.LIGHT_GRAY;
-
 					}
 				}
 				if((x-i)>=0){
@@ -233,25 +234,21 @@ public class MyPanel extends JPanel {
 				if((x-i) >= 0 && (y+j) < this.getROWS() - 1){
 					if(minas[x-i][y+j] == 0 && mineField[x-i][y+j] != Color.RED) {
 						mineField[x-i][y+j] = Color.LIGHT_GRAY;
-
 					}
 				}
 				if((x+1) < this.getColumns() && (y+j) < this.getROWS() - 1){
 					if(minas[x+i][y+j] == 0 && mineField[x+i][y+j] != Color.RED){
 						mineField[x+i][y+j] = Color.LIGHT_GRAY;
-
 					}
 				}
 				if((x+1) < this.getColumns()){
 					if(minas[x+i][y] == 0 && mineField[x+i][y] != Color.RED){
 						mineField[x+i][y] = Color.LIGHT_GRAY;
-
 					}
 				}
 				if((x+i) < this.getColumns() && (y-j) >=0){
 					if(minas[x+i][y-j] == 0 && mineField[x+i][y-j] != Color.RED){
 						mineField[x+i][y-j] = Color.LIGHT_GRAY;
-
 					}
 				}
 				if(x >= 0 && (y-j) >=0){
