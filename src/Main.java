@@ -8,7 +8,8 @@ public class Main {
 		myFrame.setSize(340, 400);
 		
 		MyPanel myPanel = new MyPanel();
-		myPanel.genMines();
+		myPanel.genField();
+		myPanel.genMines();	
 		myFrame.add(myPanel);
 		
 		MyMouseAdapter myMouseAdapter = new MyMouseAdapter();

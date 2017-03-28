@@ -13,7 +13,7 @@ public class MyPanel extends JPanel {
 	private static final int INNER_CELL_SIZE = 29;
 	private static final int TOTAL_COLUMNS = 9;
 	private static final int TOTAL_ROWS = 10;   //Last row has only one cell
-	private int minesWanted = 15;
+	private int minesWanted = 10;
 	private int maxFlags = minesWanted;
 	public Color[][] mineField = new Color[TOTAL_COLUMNS][TOTAL_ROWS];
 	public int[][] minas = new int [TOTAL_COLUMNS][TOTAL_ROWS];
@@ -158,7 +158,13 @@ public class MyPanel extends JPanel {
 		}
 		return false;
 	}
-
+	public void genField(){
+		for(int y = 0; y<this.getROWS() - 1; y++){
+			for(int x = 0; x<this.getColumns(); x++){
+				minas[x][y] = 0;
+			}
+		}
+	}
 	//By Lemanuel Colon
 	public void genMines(){
 		int minesPlaced = 0;
@@ -188,8 +194,7 @@ public class MyPanel extends JPanel {
 				}
 			}
 
-		} else {
-			minas[x][y] = 0; 
+		} else if(minas[x][y] == 0 ){
 			mineField[x][y] = Color.LIGHT_GRAY;
 			this.checkField(x, y);
 			this.repaint();	
@@ -198,51 +203,69 @@ public class MyPanel extends JPanel {
 
 	//By Lemanue Colon
 	public void placeFlag(int x, int y){
-
+		if(mineField[x][y] == Color.RED){
+			mineField[x][y] = Color.WHITE;
+			this.repaint();
+		} else{
 		mineField[x][y] = Color.RED;
 		this.repaint();
+		}
 	}
 
 	//By Lemanuel Colon
 	public void checkField(int x, int y){
 
-		if(minas[x][y] == 0){
-					if(minas[x-1][y-1] == 0 && mineField[x-1][y-1] != Color.RED){
-						mineField[x-1][y-1] = Color.LIGHT_GRAY;
-
-					}
-					if(minas[x-1][y] == 0 && mineField[x-1][y] != Color.RED){
-						mineField[x-1][y] = Color.LIGHT_GRAY;
-
-					}
-					if(minas[x-1][y+1] == 0 && mineField[x-1][y+1] != Color.RED){
-						mineField[x-1][y+1] = Color.LIGHT_GRAY;
-
-					}
-					if(minas[x][y+1] == 0 && mineField[x][y+1] != Color.RED){
-						mineField[x][y+1] = Color.LIGHT_GRAY;
-
-					}
-					if(minas[x+1][y+1] == 0 && mineField[x+1][y+1] != Color.RED){
-						mineField[x+1][y+1] = Color.LIGHT_GRAY;
-
-					}
-					if(minas[x+1][y] == 0 && mineField[x+1][y] != Color.RED){
-						mineField[x+1][y] = Color.LIGHT_GRAY;
-
-					}
-					if(minas[x+1][y-1] == 0 && mineField[x+1][y-1] != Color.RED){
-						mineField[x+1][y-1] = Color.LIGHT_GRAY;
-
-					}
-					if(minas[x][y-1] == 0 && mineField[x][y-1] != Color.RED){
-						mineField[x][y-1] = Color.LIGHT_GRAY;
+		for(int i = 0; i < 3; i++){
+			for(int j = 0; j < 3; j++ ){
+				
+				if((x-i) >= 0 && (y-j) >=0){
+					if(minas[x-i][y - j] == 0 && mineField[x-i][y-j] != Color.RED){
+						mineField[x-i][y-j] = Color.LIGHT_GRAY;
 
 					}
 				}
+				if((x-i)>=0){
+
+					if(minas[x-i][y] == 0 && mineField[x-i][y] != Color.RED){
+						mineField[x-i][y] = Color.LIGHT_GRAY;
+					}
+				}
+				if((x-i) >= 0 && (y+j) < this.getROWS() - 1){
+					if(minas[x-i][y+j] == 0 && mineField[x-i][y+j] != Color.RED) {
+						mineField[x-i][y+j] = Color.LIGHT_GRAY;
+
+					}
+				}
+				if((x+1) < this.getColumns() && (y+j) < this.getROWS() - 1){
+					if(minas[x+i][y+j] == 0 && mineField[x+i][y+j] != Color.RED){
+						mineField[x+i][y+j] = Color.LIGHT_GRAY;
+
+					}
+				}
+				if((x+1) < this.getColumns()){
+					if(minas[x+i][y] == 0 && mineField[x+i][y] != Color.RED){
+						mineField[x+i][y] = Color.LIGHT_GRAY;
+
+					}
+				}
+				if((x+i) < this.getColumns() && (y-j) >=0){
+					if(minas[x+i][y-j] == 0 && mineField[x+i][y-j] != Color.RED){
+						mineField[x+i][y-j] = Color.LIGHT_GRAY;
+
+					}
+				}
+				if(x >= 0 && (y-j) >=0){
+					if(minas[x][y-j] == 0 && mineField[x][y-j] != Color.RED){
+						mineField[x][y-j] = Color.LIGHT_GRAY;
+					}
+				}
+				if(x >= 0 && (y+j) < this.getROWS()-1){
+					if(minas[x][y+j] == 0 && mineField[x][y+j] != Color.RED){
+						mineField[x][y+j] = Color.LIGHT_GRAY;	
+					}
+				}
 			}
-		}	
-
-
-
+		}
+	}
+}
 
