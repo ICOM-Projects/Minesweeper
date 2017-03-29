@@ -101,9 +101,10 @@ public class MyMouseAdapter extends MouseAdapter {
 						//Released the mouse button on a different cell where it was pressed
 						//Do nothing
 					} else {
-						//Released the mouse button on the same cell where it was pressed
-						if ((gridX == myPanel.mouseDownGridX) || (gridY == myPanel.mouseDownGridY)) {
+						 if ((gridX == myPanel.mouseDownGridX) || (gridY == myPanel.mouseDownGridY)) {
+								if(myPanel.mineField[myPanel.mouseDownGridX][myPanel.mouseDownGridY] != Color.RED){
 									myPanel.readMines(gridX, gridY);
+								}
 						}
 					}
 				}

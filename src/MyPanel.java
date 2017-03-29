@@ -3,6 +3,7 @@ import java.awt.Graphics;
 import java.awt.Insets;
 import java.util.Random;
 
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -15,6 +16,7 @@ public class MyPanel extends JPanel {
 	private static final int TOTAL_ROWS = 10;   //Last row has only one cell
 	private int minesWanted = 10;
 	private int maxFlags = minesWanted;
+	public String[] numMines = new String[] {"","1","2","3"};
 	public Color[][] mineField = new Color[TOTAL_COLUMNS][TOTAL_ROWS];
 	public int[][] minas = new int [TOTAL_COLUMNS][TOTAL_ROWS];
 	public String [][] gridAmount = new String [TOTAL_COLUMNS][TOTAL_ROWS];
@@ -79,7 +81,7 @@ public class MyPanel extends JPanel {
 		}
 
 		//Draw an additional cell at the bottom left
-		//g.drawRect(x1 + GRID_X, y1 + GRID_Y + ((INNER_CELL_SIZE + 1) * (TOTAL_ROWS - 1)), INNER_CELL_SIZE + 1, INNER_CELL_SIZE + 1);
+		g.drawRect(x1 + GRID_X, y1 + GRID_Y + ((INNER_CELL_SIZE + 1) * (TOTAL_ROWS - 1)), INNER_CELL_SIZE + 1, INNER_CELL_SIZE + 1);
 
 		//Paint cell colors
 		for (int x = 0; x < TOTAL_COLUMNS; x++) {
@@ -117,9 +119,9 @@ public class MyPanel extends JPanel {
 		}
 		x = x / (INNER_CELL_SIZE + 1);
 		y = y / (INNER_CELL_SIZE + 1);
-		/*if (x == 0 && y == TOTAL_ROWS - 1) {    //The lower left extra cell
+		if (x == 0 && y == TOTAL_ROWS - 1) {    //The lower left extra cell
 			return x;
-		}*/
+		}
 		if (x < 0 || x > TOTAL_COLUMNS - 1 || y < 0 || y > TOTAL_ROWS - 2) {   //Outside the rest of the grid
 			return -1;
 		}
@@ -143,9 +145,9 @@ public class MyPanel extends JPanel {
 		}
 		x = x / (INNER_CELL_SIZE + 1);
 		y = y / (INNER_CELL_SIZE + 1);
-		/*if (x == 0 && y == TOTAL_ROWS - 1) {    //The lower left extra cell
+		if (x == 0 && y == TOTAL_ROWS - 1) {    //The lower left extra cell
 			return y;
-		}*/
+		}
 		if (x < 0 || x > TOTAL_COLUMNS - 1 || y < 0 || y > TOTAL_ROWS - 2) {   //Outside the rest of the grid
 			return -1;
 		}
@@ -217,52 +219,121 @@ public class MyPanel extends JPanel {
 	//By Lemanuel Colon
 	public void checkField(int x, int y){
 
+
 		for(int i = 0; i < 3; i++){
 			for(int j = 0; j < 3; j++ ){
 				
 				if((x-i) >= 0 && (y-j) >=0){
 					if(minas[x-i][y - j] == 0 && mineField[x-i][y-j] != Color.RED){
-						mineField[x-i][y-j] = Color.LIGHT_GRAY;
+						mineField[x-i][y-j] = Color.GRAY;
 					}
 				}
 				if((x-i)>=0){
 
 					if(minas[x-i][y] == 0 && mineField[x-i][y] != Color.RED){
-						mineField[x-i][y] = Color.LIGHT_GRAY;
+						mineField[x-i][y] = Color.GRAY;
 					}
 				}
 				if((x-i) >= 0 && (y+j) < this.getROWS() - 1){
 					if(minas[x-i][y+j] == 0 && mineField[x-i][y+j] != Color.RED) {
-						mineField[x-i][y+j] = Color.LIGHT_GRAY;
+						mineField[x-i][y+j] = Color.GRAY;
 					}
 				}
 				if((x+1) < this.getColumns() && (y+j) < this.getROWS() - 1){
 					if(minas[x+i][y+j] == 0 && mineField[x+i][y+j] != Color.RED){
-						mineField[x+i][y+j] = Color.LIGHT_GRAY;
+						mineField[x+i][y+j] = Color.GRAY;
 					}
 				}
 				if((x+1) < this.getColumns()){
 					if(minas[x+i][y] == 0 && mineField[x+i][y] != Color.RED){
-						mineField[x+i][y] = Color.LIGHT_GRAY;
+						mineField[x+i][y] = Color.GRAY;
 					}
 				}
 				if((x+i) < this.getColumns() && (y-j) >=0){
 					if(minas[x+i][y-j] == 0 && mineField[x+i][y-j] != Color.RED){
-						mineField[x+i][y-j] = Color.LIGHT_GRAY;
+						mineField[x+i][y-j] = Color.GRAY;
 					}
 				}
 				if(x >= 0 && (y-j) >=0){
 					if(minas[x][y-j] == 0 && mineField[x][y-j] != Color.RED){
-						mineField[x][y-j] = Color.LIGHT_GRAY;
+						mineField[x][y-j] = Color.GRAY;
 					}
 				}
 				if(x >= 0 && (y+j) < this.getROWS()-1){
 					if(minas[x][y+j] == 0 && mineField[x][y+j] != Color.RED){
-						mineField[x][y+j] = Color.LIGHT_GRAY;	
+						mineField[x][y+j] = Color.GRAY;
+						
 					}
 				}
 			}
 		}
 	}
+
+	public int adjacent(int x, int y){
+		int count = 0;
+		
+		for(int i = 0; i < 3; i++){
+			for(int j = 0; j < 3; j++ ){
+				
+				if((x-i) >= 0 && (y-j) >=0){
+					if(minas[x-i][y - j] == -1){
+						count++;
+					}
+				}
+				if((x-i)>=0){
+
+					if(minas[x-i][y] == -1){
+						count++;
+					}
+				}
+				if((x-i) >= 0 && (y+j) < this.getROWS() - 1){
+					if(minas[x-i][y+j] == -1) {
+						count++;
+					}
+				}
+				if((x+1) < this.getColumns() && (y+j) < this.getROWS() - 1){
+					if(minas[x+i][y+j] == -1){
+						count++;
+					}
+				}
+				if((x+1) < this.getColumns()){
+					if(minas[x+i][y] == -1){
+						count++;
+					}
+				}
+				if((x+i) < this.getColumns() && (y-j) >=0){
+					if(minas[x+i][y-j] == -1){
+						count++;
+					}
+				}
+				if(x >= 0 && (y-j) >=0){
+					if(minas[x][y-j] == -1){
+						count++;
+					}
+				}
+				if(x >= 0 && (y+j) < this.getROWS()-1){
+					if(minas[x][y+j] == -1){
+						count++;
+					}
+				}
+			}
+		}
+		
+		return count;
+	}
+	
+	
+	public void label(){
+		
+		
+		
+	}
+	
+	public void finished(){
+		
+		
+		
+	}
+	
 }
 
